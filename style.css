@@ -1,0 +1,24 @@
+body{
+    margin:0;
+    padding: 0;
+}
+body {
+    background-image: url('/Dictionary/vivid-blurred-colorful-wallpaper-background.jpg');
+    background-size: cover;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+h1 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.inside-list{
+    border-style: dashed;
+    padding: 3px;
+    margin: 5px;
+}
