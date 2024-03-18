@@ -1,0 +1,7 @@
+first when the button pressed then
+the div will create and enter the code which is to collect the data after collecting the data need to turn back the div to checkbox type format.
+
+//<div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="List Name" aria-label="List Name" aria-describedby="${idname}" id"${idname}">
+  <button class="btn btn-outline-secondary" type="button" id="${idname}">Push in List</button>
+</div>
