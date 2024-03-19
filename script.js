@@ -94,8 +94,8 @@ function addvalue(task) {
     var a = document.createElement("div");
     a.setAttribute("class", "list-div")
     a.setAttribute("id", `${newId}`);
-    a.innerHTML =`<input type="checkbox" id="${"List-" + newId}">
-        <label for="${"List-" + newId}">${task}</label>`
+    a.innerHTML =`<input type="checkbox" id="${"List" + newId}">
+        <label for="${"List" + newId}">${task}</label>`
     let c = document.getElementById("in-process-list-container");
     c.appendChild(a);
     localStorage.setItem(newId.toString(), task);
@@ -106,13 +106,26 @@ function loadlist(){
     for (let i = 1; i <= lastId; i++) {
         let value = localStorage.getItem(i.toString());
         if (value !== null) {
-            var a = document.createElement("div");
+            let a = document.createElement("div");
             a.setAttribute("class", "list-div");
             a.setAttribute("id", `${i}`);
             a.innerHTML = `<input type="checkbox" id="${"List" + i}">
                 <label for="${"List" + i}">${value}</label>`;
             let c = document.getElementById("in-process-list-container");
             c.appendChild(a);
+        }
+        let str = `C${i}`;
+        let completedvalue = localStorage.getItem(str);
+        if (localStorage.getItem(str) !== null) {
+            let a = document.createElement("div");
+            a.setAttribute("class", "list-div");
+            a.setAttribute("id", `C${i}`);
+            a.innerHTML = `<input type="checkbox" id="${"List" + i}">
+            <label for="${"List" + i}">${completedvalue}</label>`;
+            let c = document.getElementById("completed-list-container");
+            c.appendChild(a);
+            let completedinput = document.getElementById(`List${i}`);
+            completedinput.checked = true;
         }
     }
 }
@@ -127,19 +140,24 @@ button1.addEventListener('click', function () {
 
 let button2 = document.getElementById("Remove-list");
 button2.addEventListener('click', function () {
-     let completedListContainer = document.getElementById("completed-list-container");
-    while (completedListContainer.firstChild) {
-        let removedDiv = completedListContainer.removeChild(completedListContainer.firstChild);
-        // Remove the corresponding data from local storage
-        localStorage.removeItem(removedDiv.id);
+    if (confirm("Want to delete the first element of list?"))
+    {
+        let completedListContainer = document.getElementById("completed-list-container");
+        let completedListContainer_firstElementchild = completedListContainer.firstElementChild;
+        console.log(completedListContainer_firstElementchild)
+
+            let removedDiv = completedListContainer_firstElementchild.remove();
+            console.log(removedDiv)
+            // Remove the corresponding data from local storage
+            localStorage.removeItem(completedListContainer_firstElementchild.id);
     }
 })
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     loadlist();
 
     let listsContainer = document.getElementById("in-process-list-container");
-    listsContainer.addEventListener('change', function(event) {
+    listsContainer.addEventListener('change', async function (event) {
         if (event.target.type === 'checkbox') {
             console.log('Checkbox ID:', event.target.id, 'Checked:', event.target.checked);
             console.log(event.target.type)
@@ -147,41 +165,56 @@ document.addEventListener('DOMContentLoaded', function() {
             // For example, updating the item's status in localStorage or changing the appearance of the item.
             // let childdiv = event.target.closest(`${event.target.id}`)
             if (event.target.checked) {
-                // let parentdiv = document.getElementById("in-process-list-container");
-                // let childdiv = document.getElementById(event.target.id).parentElement;
-                // console.log(childdiv);
-                // console.log(parentdiv);
-                // // let newDiv = "";
-                // // console.log(newDiv);
-                // // let removedDiv = childdiv.replaceWith(newDiv);
-                // let removedDiv = childdiv.remove();
-                // console.log(removedDiv)
-                // let completeddiv = document.getElementById('completed-list-container');
-                // completeddiv.append(removedDiv);
-                 // If the checkbox is checked, move the corresponding div to the completed list container
+               
+                // If the checkbox is checked, move the corresponding div to the completed list container
+                location.reload();
+                 
                 let divToMove = document.getElementById(event.target.id.replace("List", ""));
                 if (divToMove) {
                     let completedListContainer = document.getElementById("completed-list-container");
                     completedListContainer.appendChild(divToMove);
                 }
                 let changeid = document.getElementById(event.target.id).parentElement;
-                
-                // changeid.setAttribute("id", `C${event.target.id}`);
-                // localStorage.setItem(`C${event.target.id}`, )
-                // localStorage.removeItem()
-                
+                labelid = changeid.querySelectorAll('label')[0].innerHTML;
+
+                let lastLetter = event.target.id.slice(4);
+                changeid.setAttribute("id", `C${lastLetter}`);
+                localStorage.setItem(`C${lastLetter}`, labelid);
+                localStorage.removeItem(lastLetter);
             }
         }
     });
 
+
     let completedlistsContainer = document.getElementById("completed-list-container");
     completedlistsContainer.addEventListener('change', function (event) {
-        if (!(event.target.checked)) {
-            let divToMove = document.getElementById(event.target.id.replace("List", ""));
+        if (event.target.type === 'checkbox') {
+            console.log(event.target.id)
+            console.log((event.target.checked) == false)
+            let idname = event.target.id.slice(4);
+            console.log(idname);
+            
+            if ((event.target.checked) == false) {
+                console.log(event.target.id)
+                let Childid = event.target.id;
+                Childid = document.getElementById(event.target.id);
+                let parentid = Childid.parentElement;
+                parentid= parentid.id
+                console.log(parentid);
+                let divToMove = document.getElementById(parentid.replace("List", ""));
                 if (divToMove) {
-                    let completedListContainer = document.getElementById("in-process-list-container");
-                    completedListContainer.appendChild(divToMove);
+                    console.log(divToMove);
+                    let inProcessListContainer = document.getElementById("in-process-list-container");
+                    inProcessListContainer.appendChild(divToMove);
+                    // Update local storage to reflect the change
+                    console.log(divToMove.id.slice(1))
+                    let labelvalue = divToMove.querySelectorAll('label')[0].innerHTML;
+                    console.log(labelvalue);
+                    localStorage.setItem(divToMove.id.slice(1),labelvalue)
+                    localStorage.removeItem(divToMove.id);
+                    // location.reload();
                 }
+            }
         }
     })
 });
