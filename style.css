@@ -95,13 +95,11 @@ button{
     margin-top: 5%;
     border-radius: 50%;
 }
+
 .list-div{
     border-style: dashed;
-    margin: 5%;
-    margin-left: 5%;
-    margin-right: 5%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 70%;
+    text-align: center;
+    margin: 1%;
+    
 }
- 
