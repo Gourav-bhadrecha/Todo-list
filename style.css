@@ -2,6 +2,15 @@ body{
     margin:0;
     padding: 0;
 }
+head {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f1f1f1;
+    padding: 10px 0;
+    text-align: center;
+}
 body {
     background-image: url('/vivid-blurred-colorful-wallpaper-background.jpg');
     background-size: cover;
@@ -36,6 +45,7 @@ text-align: center; /* Centers text horizontally */
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    overflow: auto;
 }
 .list{
     display: flex;
@@ -58,8 +68,8 @@ hr {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-
 }
+
 .in-process{
 border-style: dashed;
 height: 100%;
